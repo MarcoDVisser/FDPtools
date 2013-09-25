@@ -1,0 +1,13 @@
+Package: FDPtools
+Type: Package
+Title: Tools for working with forest dynamics plot data
+Version: 1.0
+Date: 2013-09-25
+Author: Marco D. Visser
+Maintainer: Who to complain to <marco.d.visser@gmail.com>
+Description: Generic tools for conducting analyses with
+    forest dynamics plot data.
+License: MIT
+Collate:
+    'FDPtools-internal.R'
+    'NddMeassuresFunctions.R'
