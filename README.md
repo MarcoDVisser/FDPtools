@@ -10,8 +10,6 @@ that has only been tested under linux. Windows users should take care.
 
 ## Installation
 
-To download FDPtools [ reports]:
-
 You can download the [development version of FDPtools]
 (https://github.com/MarcoDVisser/FDPtools) as [zip](https://github.com/MarcoDVisser/FDPtools/zipball/master) or [tar ball](https://github.com/MarcoDVisser/FDPtools/tarball/master). Then `R CMD INSTALL` on it, or use the **devtools** package to install the development version:
 
