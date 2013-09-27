@@ -92,13 +92,13 @@ calcDist <- function(x1,y1,x2,y2) {
   stop("Input of incorrect length")
   }
 
- out <- .C("SimpleC",
+ out <- .C("calcDist",
            x1 = as.double(x1),
            y1 = as.double(y1),
            x2 = as.double(x2),
            y2 = as.double(y2),
            r  = as.double(x1),
-           n  = as.interger(length(x1))	   		   
+           n  = as.integer(length(x1))	   		   
            )
 
   return(out$r)
