@@ -1,16 +1,21 @@
 \name{calculateCrowding}
 \alias{calculateCrowding}
-\title{calculateCrowding}
+\title{Calculate crowding statistics}
 \usage{
   calculateCrowding(FdpData = list(bci.full6, bci.full7),
-    r = seq(1, 50, 10), statistic = "count", ...)
+    refdata = NULL, r = seq(1, 50, 10),
+    statistic = "count", ...)
 }
 \arguments{
-  \item{FdpData}{A list of all census years on which the
+  \item{FdpData}{A list of fdp census datasets on which the
   calculation must be conducted}
 
+  \item{refdata}{a second dataset including points for
+  which crowding statistics based on the FdpData must be
+  calculated. This option is ignored if NULL.}
+
   \item{r}{a vector containing all distances at which the
-  below statistic must be calculated}
+  below statistic must be calculated. Used if relevant.}
 
   \item{statsistic}{character defining which method to use.
   Methods include: 1) "count", simple count of neighbours
@@ -22,9 +27,13 @@
   calculation}
 }
 \description{
-  calculates Crowding statistics for each individual alive
-  in a given census year for the BCI plot data for further
-  analysis.
+  \code{calculateCrowding} - Calculates crowding statistics
+  for each individual alive, based on the surrounding
+  environment, in each included census for the BCI plot
+  data. Alternatively, if a second data set is included
+  (refdata) it calculates crowding statistics for all
+  points in the second dataset based on all points in each
+  FDP census included.
 }
 \author{
   Marco D. Visser

@@ -4,16 +4,23 @@
 # Marco Visser, Nijmegen, September 2013
 ############################################################
 
-#' calculateCrowding
+#' Calculate crowding statistics
 #' 
-#' calculates Crowding statistics for each individual alive
-#' in a given census year for the BCI plot data for
-#' further analysis.
+#' \code{calculateCrowding} - Calculates crowding statistics
+#' for each individual alive, based on the surrounding
+#' environment, in each included census for the BCI
+#' plot data. Alternatively, if a second data set is included
+#' (refdata) it calculates crowding statistics for all points
+#' in the second dataset based on all points in each FDP census
+#' included. 
 #' 
-#' @param FdpData A list of all census years on which the
+#' @param FdpData A list of fdp census datasets on which the
 #'  calculation must be conducted
+#' @param refdata a second dataset including points for
+#' which crowding statistics based on the FdpData must
+#' be calculated. This option is ignored if NULL.
 #' @param r a vector containing all distances at which the
-#' below statistic must be calculated
+#' below statistic must be calculated. Used if relevant.
 #' @param statsistic character defining which method to use.
 #' Methods include: 1) "count", simple count of neighbours
 #' within r 2) "distance index", a distance weighted function
@@ -25,6 +32,7 @@
 #' 
 #' @export
 calculateCrowding <- function(FdpData=list(bci.full6,bci.full7),
+                              refdata=NULL,
                               r=seq(1,50,10),
                               statistic="count",
                               ...) {
@@ -33,59 +41,25 @@ calculateCrowding <- function(FdpData=list(bci.full6,bci.full7),
 FdpData <- lapply(FdpData, function(X)
                   subset(X,DFstatus=="alive"))
 
- # calculate a distance matrix for each individual
- # to each other individual
-DistMatList <- lapply(FdpData,function(X)
-                    calcDistMat(X,xy=c("gx","gy")))
+# Classify FdpData by statistic
+ for(i in 1:length(FdpData))   {
+class(FdpData[[i]]) <- c(paste("ndd",statistic,sep=""),"data.frame")
+                 }
 
-# Classify matrices by statistic
-lapply(DistMatlist,function(X) class(X) <- statistic)
-
-# create crowding matrices
-CrowdMat<-lapply(FdpData,function(X)
-                 matrix(-1.0,nrow=dim(X)[1],
-                        ncol=length(r))
-                 )
-
-# Next loop over CrowdMat and calculate stats for each r
-
+if(is.null(refdata)){                  
+# create crowding metrices for each dataset
+CrowdData<-lapply(FdpData,function(X) CrowdStat(X,r,...))
 }
 
-
-#' calcDistMat
-#' 
-#' Generic function to calculate distances between all
-#' point is a datatset containing x and y coordinates
-#' 
-#' @param pointdata a dataset containing x and y
-#' coordinates
-#' @param xy column names containing coordinates
-#' 
-#' @author Marco D. Visser
-#' 
-calcDistMat <- function(pointdata,xy=c("x","y")){
-
-  # Limit data to x and y
-  pointdata <- pointdata[,is.element(xy,colnames(ponitdatat))]
-
-  DistMat<-matrix(0,nrow=nrow(pointdata))
-
-  #Vectorized over rows so should be pretty fast
-
-  for(i in 1:nrow(pointdata)){
-    DistMat[i,] <- sqrt( (pointdata[i,1]-pointdata[,1])^2 +
-                        (pointdata[i,2] - pointdata[,2])^2)
-  }
-
-  return(DistMat)
-
+# return crowding data
+return(CrowdData)
 }
 
 #' CrowdStat
 #' 
-#' Generic function which calls specific crowding statistic
-#' to calculate crowding for each individual in a dataset
-#' for each radius.
+#'  \code{CrowdStat} Generic function which calls specific
+#' crowding statistic to calculate crowding for each individual
+#' in a dataset for each radius.
 #' 
 #' @param censusdata a single census year, with only
 #' individuals alive within this census included.
@@ -101,10 +75,10 @@ CrowdStat <- function(censusdata,r,...){
 UseMethod("CrowdStat")
 }
 
-##' CrowdStat.count
+##' CrowdStat.nddcount
 ##' 
-##' primitive function which counts individual
-##' surrounding a given individual in the census data
+##' primitive function which counts points (trees)
+##' surrounding a given focal point (tree) in the census data
 ##' 
 ##' @param distancemat a matrix containing the distances
 ##' between all individuals
@@ -112,11 +86,18 @@ UseMethod("CrowdStat")
 ##' below statistic must be calculated
 ##' 
 ##' @author Marco D. Visser
-##' not exported
-CrowdStat.count<-function(distancemat,r){
+##' @export
+
+CrowdStat.nddcount<-function(FdpData,r){
+
+    CrowdMat<-matrix(nrow=nrow(FdpData),ncol=length(r))
 
 
+    for(i in 1:nrow(FdpData)){
+   Distvec <- calcDistMat(FdpData,FdpData[i,],xy=c("gx","gy","gx","gy"))
+   CrowdMat[i,] <- sapply(r,function(X) sum(X<=Distvec))
+    }
 
-
+    return(CrowdMat)
 }
                              

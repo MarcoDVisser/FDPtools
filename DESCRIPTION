@@ -8,6 +8,11 @@ Maintainer: Who to complain to <marco.d.visser@gmail.com>
 Description: Generic tools for conducting analyses with
     forest dynamics plot data.
 License: MIT
+Depends:
+    compiler
+Imports:
+    xtable
 Collate:
     'FDPtools-internal.R'
     'NddMeassuresFunctions.R'
+    'spatialTools.R'

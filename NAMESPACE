@@ -1,2 +1,5 @@
 export(CrowdStat)
+export(CrowdStat.nddcount)
+export(calcDist)
+export(calcDistMat)
 export(calculateCrowding)

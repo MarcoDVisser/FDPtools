@@ -15,9 +15,9 @@
   calculation}
 }
 \description{
-  Generic function which calls specific crowding statistic
-  to calculate crowding for each individual in a dataset
-  for each radius.
+  \code{CrowdStat} Generic function which calls specific
+  crowding statistic to calculate crowding for each
+  individual in a dataset for each radius.
 }
 \author{
   Marco D. Visser
