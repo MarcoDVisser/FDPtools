@@ -5,7 +5,7 @@ Optimized tools for working with forest dynamics plot data. The package is an
 attempt to create many optimized analytically tools for calculating statistics
 of interest from forest dynamics plot data. Tools range from spatail tools such
 as distance calculation to Bayesian variable selection and inverse modelling.
-The package is currently under development and contain source code in C 
+The package is currently under development and contains source code in C 
 that has only been tested under linux. Windows users should take care.
 
 ## Installation
@@ -26,5 +26,6 @@ Microsoft Windows users will need to install [Rtools](http://www.murdoch-sutherl
 
 ## Bugs
 * bug-reports can be submitted through: <https://github.com/MarcoDVisser/FDPtools/issues>
+
 ##Contact
 * emails can be sent to: <marco.d.visser@gmail.com>
