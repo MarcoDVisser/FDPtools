@@ -1,4 +1,30 @@
 FDPtools
 ========
 
-Tools for working with forest dynamics plot data
+Optimized tools for working with forest dynamics plot data. The package is an 
+attempt to create many optimized analytically tools for calculating statistics
+of interest from forest dynamics plot data. Tools range from spatail tools such
+as distance calculation to Bayesian variable selection and inverse modelling.
+The package is currently under development and contain source code in C 
+that has only been tested under linux. Windows users should take care.
+
+## Installation
+
+To download FDPtools [ reports]:
+
+You can download the [development version of FDPtools]
+(https://github.com/MarcoDVisser/FDPtools) as [zip](https://github.com/MarcoDVisser/FDPtools/zipball/master) or [tar ball](https://github.com/MarcoDVisser/FDPtools/tarball/master). Then `R CMD INSTALL` on it, or use the **devtools** package to install the development version:
+
+```r
+## Make sure your current packages are up to date
+update.packages()
+## devtools is required
+library(devtools)
+install_github("FDPtools", "MarcoDVisser")
+```
+Microsoft Windows users will need to install [Rtools](http://www.murdoch-sutherland.com/Rtools/) first.
+
+## Bugs
+* bug-reports can be submitted through: <https://github.com/MarcoDVisser/FDPtools/issues>
+##Contact
+* emails can be sent to: <marco.d.visser@gmail.com>
