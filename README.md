@@ -26,8 +26,8 @@ Microsoft Windows users will need to install [Rtools](http://www.murdoch-sutherl
 ```r
 # Make spatial data
 require(FDPtools)
-x1<-runif(1000)
-y1<-runif(1000)
+x1<-runif(10000)
+y1<-runif(10000)
 x2<-runif(1000)
 y2<-runif(1000)
 #pure R way to calculate distance

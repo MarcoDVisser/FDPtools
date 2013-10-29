@@ -88,7 +88,7 @@ UseMethod("CrowdStat")
 ##' @author Marco D. Visser
 ##' @export
 
-CrowdStat.nddcount<-function(FdpData,r){
+CrowdStat.ndd<-function(FdpData,r){
 
     CrowdMat<-matrix(nrow=nrow(FdpData),ncol=length(r))
 
