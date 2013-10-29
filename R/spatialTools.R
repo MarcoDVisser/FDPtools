@@ -63,8 +63,9 @@ DistMat<-matrix(ncol=nrow(pointdata),
 
     for(i in 1:nrow(pointdata)){
 
-      DistMat[,i] <- sqrt((pointdata[i,1]-referencedata[,1])^2 +
-                        (pointdata[i,2] - referencedata[,2])^2)   
+      DistMat[,i] <-calcDist(pointdata[,1], pointdata[,2],
+                            pointdata[i,1], pointdata[i,2])
+
     }
 }
   
@@ -86,20 +87,18 @@ calcDistMat<-cmpfun(calcDistMat)
 ##' @param y2 reference point y coordinate 
 ##'
 ##' @export
+##' @useDynLib FDPtools
 calcDist <- function(x1,y1,x2,y2) {
 
-  if(length(x2)>1|length(y2)>1){
+  if(length(x2)<1|length(y2)<1){
   stop("Input of incorrect length")
   }
 
- out <- .C("calcDist",
+ out <- .Call("calcDist",
            x1 = as.double(x1),
            y1 = as.double(y1),
            x2 = as.double(x2),
-           y2 = as.double(y2),
-           r  = as.double(x1),
-           n  = as.integer(length(x1))	   		   
-           )
-
-  return(out$r)
-}
+           y2 = as.double(y2)
+          )
+return(out)
+ }
