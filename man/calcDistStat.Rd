@@ -4,7 +4,8 @@
 datasets or within datasets (with spatial data).}
 \usage{
   calcDistStat(pointdata, referencedata = NULL,
-    xy = c("x", "y"), statistic = NULL, radii = NULL)
+    xy = c("x", "y"), statistic = NULL, radii = NULL,
+    annuli = NULL)
 }
 \arguments{
   \item{pointdata}{a dataset containing x and y
@@ -28,7 +29,13 @@ datasets or within datasets (with spatial data).}
   within each radii is returned. The values in "statistic"
   should correspond to pointdata.}
 
-  \item{radii}{a vector of distance}
+  \item{radii}{a vector of distances.}
+
+  \item{annuli}{a matrix/array/data.frame of annuli. The
+  object should contain two columns, containing the radii
+  of each pair of two concentric circles that form the
+  annuli. The first column must contain the smallest circle
+  radius. When annuli are supplied, radii are ignored.}
 }
 \description{
   \code{calcDistStat} - Generic optimized function for
