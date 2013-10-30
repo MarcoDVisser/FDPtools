@@ -2,9 +2,6 @@
 # A List of optimized spatial tools
 # Marco Visser, Nijmegen, September 2013
 ############################################################
-# Compile function for speed
-calcDistStat<-cmpfun(calcDistStat)
-
 ##' calcDist a lower-level helper function
 ##'
 ##' Wrapper function which calls some
@@ -126,8 +123,8 @@ calcDistStat <- function(pointdata,referencedata=NULL,xy=c("x","y"),
   stop("statistic cannot be NULL")}
   if(is.null(radii)){
   if(is.null(annuli)) {stop("radii or annuli must be supplied")}
-  }
   if(dim(annuli)[2]!=2){stop("annuli not of the correct dimensions")}
+  }
 
     if(length(statistic)<dim(pointdata)[1]){
   stop("pointdata does not conform to statistic")
@@ -219,4 +216,6 @@ calcDistStat <- function(pointdata,referencedata=NULL,xy=c("x","y"),
   return(results)
      
 }
-                             
+
+# Compile function for speed
+calcDistStat<-cmpfun(calcDistStat)

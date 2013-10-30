@@ -24,4 +24,7 @@
   distance between the points is smaller or equal to radius
   or within an annulus.
 }
+\author{
+  Marco D. Visser
+}
 
