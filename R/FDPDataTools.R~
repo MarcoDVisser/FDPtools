@@ -1,0 +1,207 @@
+############################################################
+# Helper functions used to organise the FDP datasets
+# Marco Visser, Gamboa, Panama, February 2014
+############################################################
+
+#' Prepare Growth and Survival datasets 
+#' 
+#' \code{prepareFDPdata} - prepares raw data for analysis in two
+#' posible formats for each individual for the BCI
+#' plot data. 
+#' 
+#' @param FDPobjects A vector of fdp census objects stored in
+#'  the global environment
+#' @param census Which census is included? The tree census (> 1cm dbh)
+#' or the seedling census (> 20 cm height).
+#' @param type Which format is desired? Can be either 'paired' or 'trajectory'
+#' A paired format, is where each consecutive census is paired. This is the
+#' standard growth analysis format. Or a trajectory format, where all data are
+#' organized next to each other (this is for growth trajectory analysis).
+#' @param SpFitList A vector of 6 char species codes, if null all species
+#' are used.
+#' 
+#' @author Marco D. Visser
+#' 
+#' @export
+prepareFDPdata <- function(FDPobjects = ls()[grep("bci.full",ls())][3:7],
+                           census = "tree", type = 'paired',SpFitList=NULL) {
+
+  if(is.null(SpFitList)){SpFitList <- unique(get(FDPobjects[1])$sp)}
+  
+ if(census=='tree'){
+  prepdata <- lapply(FDPobjects, function(X) subset(get(X),
+                                                    sp%in%tolower(SpFitList)))
+
+  ## subset data and only include what is needed
+  
+   censusdata <- lapply(prepdata,function(X)
+                     X[,c("sp","tag","dbh","DFstatus","date","codes")])
+  
+} else { stop }
+ if(type=='paired')  {
+    
+  
+  censuspairs <- vector("list",length(censusdata)-1)
+  
+  for(i in 1:length(censuspairs)){
+    censuspairs[[i]] <- c((1:(length(FDPobjects)-1))[i],(2:length(FDPobjects))[i])
+  }
+  
+  tempdatapairs <- lapply(censuspairs, function(X) {
+    cbind(censusdata[[X[1]]],censusdata[[X[2]]])
+  })
+  
+  censustracker <- lapply(censuspairs, function(X) {
+    rep(paste(X,collapse=''), nrow(censusdata[[X[1]]]))
+  })
+  
+  finalgrowthlong <- do.call(rbind,tempdatapairs)
+  names(finalgrowthlong) <- c(paste(names(censusdata[[1]]),1,sep=''),
+                              paste(names(censusdata[[1]]),2,sep=''))
+  finalgrowthlong$census <- as.factor(unlist(censustracker))
+  rm(tempdatapairs)
+  
+  growclean<-finalgrowthlong
+  class(growclean) <- c(class(growclean),"fdpdata",type,census)
+  
+} else {
+
+  ## extract data
+  dbhdata <- do.call(cbind,lapply(censusdata,function(X) X[,"dbh"]))
+  survivaldata <- do.call(cbind,lapply(censusdata,function(X) X[,"DFstatus"]))
+  codedata <- do.call(cbind,lapply(censusdata,function(X) X[,"codes"]))
+  datedata <- do.call(cbind,lapply(censusdata,function(X) X[,"date"]))
+  ## rename columns
+  colnames(dbhdata) = paste0("dbh",1:dim(dbhdata)[2])
+  colnames(survivaldata) = paste0("survival",1:dim(survivaldata)[2])
+  colnames(codedata) = paste0("code",1:dim(codedata)[2])
+  colnames(datedata) = paste0("date",1:dim(datedata)[2])
+  ## get meta data
+  metadata <- censusdata[[1]][,c("tag","sp")]
+  growclean <- cbind(metadata,dbhdata,survivaldata,datedata,codedata)
+  class(growclean) <- c(class(growclean),"fdpdata",type,census)
+}
+
+  return(growclean)
+}
+# Compile function for speed
+prepareFDPdata<-cmpfun(prepareFDPdata)
+
+#' Extract Relavent Data
+#' 
+#' \code{extractData} - extracts growth, survival or a combined dataset from
+#' from objects previously prepared by \code{prepareFDPdata}
+#' 
+#' @param FDPdata An object return by \code{prepareFDPdata}
+#' @param type Which format is desired? Can be either 'growth', 'survival',
+#' 'resprouter' or a paired format "paired" - in which each growth
+#' and survival information is paired.
+#' The paired format must be created with \code{prepareFDPdata} using the option
+#' type='trajectory'.
+#' @param datestan A date standardizer, when datestan = 21 the first cenus
+#' dates are set to +- 0. This is only relavent for trajectory modelling.
+#' 
+#' @author Marco D. Visser
+#' 
+#' @export
+extractData <- function(FDPdata=NULL,type='growth', datestan=21) {
+  
+  if(type=='growth'&is.element("paired",class(FDPdata))) {
+
+  ##remove individuals that died in a second census
+  
+  finalgrowthlong <- subset(FDPdata,DFstatus2=="alive")
+  
+  finalgrowthlong$years <- (finalgrowthlong$date2-
+                            finalgrowthlong$date1)/365.25
+  finalgrowthlong$grw <- ((finalgrowthlong$dbh2-finalgrowthlong$dbh1)
+                          /finalgrowthlong$years)
+
+    ## remove  broken and dying individuals (resprouts)
+    growclean<-subset(finalgrowthlong, !is.na(dbh1)&!is.na(dbh2))
+  return(growclean)
+}
+
+  if(type=='survival'&is.element("paired",class(FDPdata))) {
+    survivallong <- subset(FDPdata,DFstatus1=='alive')
+    survivallong$surv <- survivallong$DFstatus2=='alive'
+    survivallong$T <- (survivallong$date2-survivallong$date1)/356.25
+    survclean <- subset(survivallong,!is.na(dbh1))
+    return(survclean)
+  }
+
+  if(type=='resprouter'&is.element("trajectory",class(FDPdata))) {
+
+    ## saved history
+    survsub<-GrowTraFull[,paste0("survival",1:5)]
+    head(GrowTraFull[apply(dd,1,sum)>0,])
+  }
+
+  
+  if(type=='growth'&is.element("trajectory",class(FDPdata))) {
+    ##How many census points?
+    Ncen <- length(grep("dbh",names(FDPdata)))
+    
+    ## find and drop all reprouters, these are treated differently
+    ## once an individual respouts,it is always considered a reprouter
+    ## and it is treated in a seperate analysis
+    resprouter <- FDPdata[,paste0("survival",1:Ncen)]=="lost_stem"
+    ## when did it first respout?
+    firstresprout <- suppressWarnings(sapply(1:dim(resprouter)[1],function(X)
+                                            min(which(resprouter[X,],arr.ind=T))))
+
+    firstresprout[!is.finite(firstresprout)]<-NA
+
+    ## Find missing individuals that are actually resprouters
+    missing <- FDPdata[,paste0("survival",1:Ncen)]=="missing"
+
+    
+    ## run through all respouters and fix
+    correction <-resprouter[!is.na(firstresprout),]
+
+    pb <- txtProgressBar(min = 0, max = dim(correction)[1], style = 3)    
+    for(i in 1:dim(correction)[1]){
+      correction[i,][na.omit(firstresprout)[i]:Ncen]<-TRUE
+      setTxtProgressBar(pb, i)
+    }
+    close(pb)
+
+    ## id missing
+
+    resprouter[!is.na(firstresprout),]<-correction
+    
+    # remove respouter information from data
+    FDPdata[,paste0("dbh",1:Ncen)][resprouter] <- NA
+    ## which data points have information in them?
+    infopoints <- !is.na(FDPdata[,paste0('dbh',1:Ncen)])
+    ## dicard those with only 1 point of meassurement
+    growdatpoints <- apply(infopoints,1,sum)
+    growclean <- subset(FDPdata,growdatpoints>1)
+        
+    ## update infopoints
+    infopoints <- !is.na(growclean[,paste0('dbh',1:Ncen)])
+    ##id the first and last census with information
+    growclean$start <- sapply(1:dim(infopoints)[1],function(X)
+                              min(which(infopoints[X,],arr.ind=T)))
+    growclean$end <- sapply(1:dim(infopoints)[1],function(X)
+                            max(which(infopoints[X,],arr.ind=T)))
+    ## stardardize dates
+    dates <-  growclean[,paste0('date',1:Ncen)]
+    growclean[,paste0('date',1:Ncen)]<-dates/365.25
+    growclean$startdate <- sapply(1:nrow(growclean),
+                                  function(X) dates[X,growclean$start[X]])
+    return(growclean)
+  }
+
+
+  if(type=='paired'&is.element("trajectory",class(FDPdata))) {
+
+
+  }
+    if(type=='paired'&!is.element("trajectory",class(FDPdata))) {
+    stop("paired option only valid on trajectory data")
+  }
+
+}
+
+extractData<-cmpfun(extractData)

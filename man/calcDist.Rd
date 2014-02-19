@@ -2,7 +2,7 @@
 \alias{calcDist}
 \title{calcDist a lower-level helper function}
 \usage{
-  calcDist(x1, y1, x2, y2)
+calcDist(x1, y1, x2, y2)
 }
 \arguments{
   \item{x1}{x coordinates of points}
@@ -14,6 +14,6 @@
   \item{y2}{reference point y coordinate}
 }
 \description{
-  Wrapper function which calls some underlying C code.
+Wrapper function which calls some underlying C code.
 }
 

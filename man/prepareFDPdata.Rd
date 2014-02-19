@@ -1,0 +1,34 @@
+\name{prepareFDPdata}
+\alias{prepareFDPdata}
+\title{Prepare Growth and Survival datasets}
+\usage{
+prepareFDPdata(FDPobjects = ls()[grep("bci.full", ls())][3:7],
+  census = "tree", type = "paired", SpFitList = NULL)
+}
+\arguments{
+  \item{FDPobjects}{A vector of fdp census objects stored
+  in the global environment}
+
+  \item{census}{Which census is included? The "tree" census
+  (> 1cm dbh) or the "seedling" census.}
+
+  \item{type}{Which format is desired? Can be either
+  'paired' or 'trajectory' A paired format, is where each
+  consecutive census is paired. This is the standard growth
+  analysis format. Or a trajectory format, where all data
+  are organized next to each other (this is for growth
+  trajectory analysis). Only trajectory format is allowed
+  for seedling data.}
+
+  \item{SpFitList}{A vector of 6 char species codes, if
+  null all species are used.}
+}
+\description{
+\code{prepareFDPdata} - prepares raw data for analysis in
+two posible formats for each individual for the BCI plot
+data.
+}
+\author{
+Marco D. Visser
+}
+

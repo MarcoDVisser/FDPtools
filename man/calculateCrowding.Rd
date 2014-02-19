@@ -2,9 +2,8 @@
 \alias{calculateCrowding}
 \title{Calculate crowding statistics}
 \usage{
-  calculateCrowding(FdpData = list(bci.full6, bci.full7),
-    refdata = NULL, r = seq(1, 50, 10),
-    statistic = "count", ...)
+calculateCrowding(FdpData = list(bci.full6, bci.full7), refdata = NULL,
+  r = seq(1, 50, 10), statistic = "count", ...)
 }
 \arguments{
   \item{FdpData}{A list of fdp census datasets on which the
@@ -27,15 +26,15 @@
   calculation}
 }
 \description{
-  \code{calculateCrowding} - Calculates crowding statistics
-  for each individual alive, based on the surrounding
-  environment, in each included census for the BCI plot
-  data. Alternatively, if a second data set is included
-  (refdata) it calculates crowding statistics for all
-  points in the second dataset based on all points in each
-  FDP census included.
+\code{calculateCrowding} - Calculates crowding statistics
+for each individual alive, based on the surrounding
+environment, in each included census for the BCI plot data.
+Alternatively, if a second data set is included (refdata)
+it calculates crowding statistics for all points in the
+second dataset based on all points in each FDP census
+included.
 }
 \author{
-  Marco D. Visser
+Marco D. Visser
 }
 

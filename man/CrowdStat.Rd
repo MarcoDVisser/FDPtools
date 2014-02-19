@@ -2,7 +2,7 @@
 \alias{CrowdStat}
 \title{CrowdStat}
 \usage{
-  CrowdStat(censusdata, r, ...)
+CrowdStat(censusdata, r, ...)
 }
 \arguments{
   \item{censusdata}{a single census year, with only
@@ -15,11 +15,11 @@
   calculation}
 }
 \description{
-  \code{CrowdStat} Generic function which calls specific
-  crowding statistic to calculate crowding for each
-  individual in a dataset for each radius.
+\code{CrowdStat} Generic function which calls specific
+crowding statistic to calculate crowding for each
+individual in a dataset for each radius.
 }
 \author{
-  Marco D. Visser
+Marco D. Visser
 }
 

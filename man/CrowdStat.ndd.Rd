@@ -2,7 +2,7 @@
 \alias{CrowdStat.ndd}
 \title{CrowdStat.nddcount}
 \usage{
-  CrowdStat.ndd(FdpData, r)
+\method{CrowdStat}{ndd}(FdpData, r)
 }
 \arguments{
   \item{distancemat}{a matrix containing the distances
@@ -12,10 +12,10 @@
   below statistic must be calculated}
 }
 \description{
-  primitive function which counts points (trees)
-  surrounding a given focal point (tree) in the census data
+primitive function which counts points (trees) surrounding
+a given focal point (tree) in the census data
 }
 \author{
-  Marco D. Visser
+Marco D. Visser
 }
 

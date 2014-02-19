@@ -1,0 +1,120 @@
+############################################################
+# Helper functions to view the FDP metadata
+# Marco Visser, Gamboa, Panama, February 2014
+############################################################
+
+#' View Condition Codes
+#' 
+#' \code{ConCode} - Gives an overview of the condition codes
+#' for FDP plot data (only BCI currently).
+#' 
+#' @param site Which site? Can be either "BCI", "PASOH", ...
+#' 
+#' @author Marco D. Visser
+#' 
+#' @export
+ConCode <- function(site="BCI"){
+if(site=="BCI"){help("ConCode.BCI")}
+}
+
+#' View Condition Codes
+#' 
+#' \code{ConCode} - Gives an overview of the condition codes
+#' for FDP plot data (only BCI currently).
+#' 
+#' @param site Which site? Can be either "BCI", "PASOH", ...
+#' 
+#' @author Marco D. Visser
+#' 
+#' @export
+
+
+
+#' BCI condition codes
+Condition codes
+
+1982
+
+D	Found dead on the second pass of the first census in 1983, after being tagged for the first time in 1982. This code should generally 	be ignored, because these plants were alive in 1982
+F	Fallen or missing
+G 	Plant to be removed from current quadrat
+H	Plant moved into present quadrat
+L	Leaning
+N	Found and tagged on the second pass of first census in 1983,
+was not seen in 1982
+P	Prostrate
+R	Reproductive (infrequently used)
+S	Suckering
+V	Vines on 50% or more of the plant's crown
+X	Broken
+Z	?
+
+1985
+
+D	Dead, followed by:
+		B	Broken, above ground
+		F	Fallen, roots not above ground
+		H	Through human activity
+		T	Fallen, roots above ground
+		U	Upright, stem nearly complete
+
+I	Injured, followed by:
+		A	Needs checking
+		B	Major damage to bark
+		H	Through human activity
+		O	Major rot in trunk
+		T	Major split or break in trunk without rot
+
+L	Leaning, followed by:
+		B	Branch over trunk
+		H	Through human activity		
+		K	Rock over trunk
+		N	No apparent cause
+		T	Fallen tree over trunk
+		V	Lianas over trunk
+
+M	Missing (not found), followed by:
+		C	Both tag and tree missing
+		F	Probably under tree or vine fall		
+		T	Tree missing, tag found
+		
+P	Prostrate (horizontal and touching ground at least at one point),
+	followed by:
+		B	Branch over trunk
+		H	Through human activity
+		K	Rock over trunk
+		N	No apparent cause
+		T	Fallen tree over trunk
+		V	Lianas over trunk
+			
+Q	Broken above 1.3 m (this was not accompanied by another code)
+
+R	Resprout (or resurrected), followed by:
+		F	Shoots from a fallen trunk with roots not in view
+		P	Broken lower than 1.3 m, suckering
+		T	Shoots from a fallen trunk with roots in view
+
+Codes 1990 through 2005
+
+B	Buttressed tree whose diameter was taken at a special height above 
+buttresses
+
+D	Dead, followed by:
+		C	Dead trunk lying on ground
+		N	Both tag and tree missing
+		S	Dead trunk still standing
+		T	Tree missing, tag found
+
+L	1990 - Leaning, with stem more than 45 degrees from vertical 
+	1995 - Leaning, at any angle
+
+M	Multiple-stemmed plant
+
+Q	Broken above 1.3 m
+
+R	Resprout, with the originally measured stem gone below 1.3 m, but a
+	new stem sprouting
+
+ConCode <- function(site="BCI"){
+if(site=="BCI"){help("ConCode.BCI")}
+}

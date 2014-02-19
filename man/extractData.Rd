@@ -1,0 +1,29 @@
+\name{extractData}
+\alias{extractData}
+\title{Extract Relavent Data}
+\usage{
+extractData(FDPdata = NULL, type = "growth", datestan = 21)
+}
+\arguments{
+  \item{FDPdata}{An object return by \code{prepareFDPdata}}
+
+  \item{type}{Which format is desired? Can be either
+  'growth', 'survival', 'resprouter' or a paired format
+  "paired" - in which each growth and survival information
+  is paired. The paired format must be created with
+  \code{prepareFDPdata} using the option
+  type='trajectory'.}
+
+  \item{datestan}{A date standardizer, when datestan = 21
+  the first cenus dates are set to +- 0. This is only
+  relavent for trajectory modelling.}
+}
+\description{
+\code{extractData} - extracts growth, survival or a
+combined dataset from from objects previously prepared by
+\code{prepareFDPdata}
+}
+\author{
+Marco D. Visser
+}
+

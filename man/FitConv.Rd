@@ -1,0 +1,38 @@
+\name{FitConv}
+\alias{FitConv}
+\title{Fit and Converge a Jags model}
+\usage{
+FitConv(JAGSdata = NULL, modellist = NULL, gelmanthr = 1.05,
+  StepIt = 1000, MaxIt = 10000, FinalSampleLength = 500, ...)
+}
+\arguments{
+  \item{JAGSdata}{A pre-prepared jags data object}
+
+  \item{modellist}{A vector containing the location and
+  names of the jags model files. These files should be read
+  in R, as a modelstring. These files must also generate a
+  vector of model parameter names to be return (in a object
+  called interestlist)}
+
+  \item{gelmanthr}{Gelman threshold values to except fit}
+
+  \item{StepIt}{what is the standard number of MCMC samples
+  to take before checking for convergence?}
+
+  \item{MaxIt}{What is the maximum number of MCMC samples}
+
+  \item{FinalSampleLength}{How many posterior sample do you
+  need when the model is returned?}
+
+  \item{...}{additional parameters to be passed to
+  \code{jags.model}}
+}
+\description{
+\code{FitConv} - runs a Jags model, or list of models, and
+checks for convergence using gelman stats. It then returns
+a list of MCMC samples, a jags model and DIC values.
+}
+\author{
+Marco D. Visser
+}
+

@@ -3,9 +3,8 @@
 \title{Calculate distance-based statistics between
 datasets or within datasets (with spatial data).}
 \usage{
-  calcDistStat(pointdata, referencedata = NULL,
-    xy = c("x", "y"), statistic = NULL, radii = NULL,
-    annuli = NULL)
+calcDistStat(pointdata, referencedata = NULL, xy = c("x", "y"),
+  statistic = NULL, radii = NULL, annuli = NULL)
 }
 \arguments{
   \item{pointdata}{a dataset containing x and y
@@ -38,9 +37,9 @@ datasets or within datasets (with spatial data).}
   radius. When annuli are supplied, radii are ignored.}
 }
 \description{
-  \code{calcDistStat} - Generic optimized function for
-  calculation of distance based statistics as e.g. total
-  basal area with radii
+\code{calcDistStat} - Generic optimized function for
+calculation of distance based statistics as e.g. total
+basal area with radii
 }
 \examples{
 \dontrun{
@@ -49,6 +48,6 @@ calcDistMat(x,xy=c("x.cor","y.cor"),statistic=runif(10))
 }
 }
 \author{
-  Marco D. Visser
+Marco D. Visser
 }
 

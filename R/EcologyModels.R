@@ -1,0 +1,24 @@
+############################################################
+## A list of models used in biology and ecology
+## with their inverse and differential forms
+# Marco Visser, Gamboa, Panama, February 2014
+############################################################
+
+#' 3 parameter logistic with initial size parameter
+#' 
+#' \code{EElogis} - A family of 3 parameter logistic function
+#'
+#' @param time time since initial size
+#' @param M mass
+#' @param M0 initial mass
+#' @param K asymptotic size
+#' @param r growth rate
+#' 
+#' @author Marco D. Visser
+#' 
+#' @export
+EMilogis3k <- function(M,M0,K,r) {
+    log((K*M)/(K*M0-M*M0)-(M*M0)/(K*M0-M*M0))/r
+}
+
+Emlogis3k<-function(M0,K,r,time=1) (M0*K)/(M0+(K-M0)*exp(-r*time))
