@@ -48,7 +48,7 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
 
            model <- jags.model(data=JAGSdata,file
                                = textConnection(modelstring)
-                              ,n.adapt=round(StepIt),...)
+                              ,n.adapt=round(StepIt),n.chains=3)
     gelman <- data.frame(mpsrf=gelmanthr+1)
     CurIt <- StepIt
     if(length(interestlist)>1){
