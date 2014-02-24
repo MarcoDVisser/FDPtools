@@ -2,7 +2,7 @@
 \alias{summary.FDPmodel}
 \title{Summarize models and fitstatistics}
 \usage{
-\method{summary}{FDPmodel}(modelfit, ...)
+summary.FDPmodel(modelfit, ...)
 }
 \arguments{
   \item{modelfit}{A list of FDPmodel objects returned by

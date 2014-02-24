@@ -1,0 +1,46 @@
+\name{GROlogis3k}
+\alias{GROdlogis3k}
+\alias{GROilogis3k}
+\alias{GROlogis3k}
+\title{the GROlogis 3 parameter set
+
+\code{GROlogis3k} - A family of 3 parameter logistic functions for size
+growth modelling,
+predicting size at time t, from initial size M0, and a set of
+parameters. The set includes an inverse and differential, which
+predict age at size M, and growth rates dM/dtime for a size M.}
+\usage{
+GROlogis3k(M0, K, r, time = 1)
+
+GROilogis3k(M, M0, K, r)
+
+GROdlogis3k(M, r)
+}
+\arguments{
+  \item{time}{time since initial size}
+
+  \item{M}{mass}
+
+  \item{M0}{initial mass}
+
+  \item{K}{asymptotic size}
+
+  \item{r}{growth rate}
+}
+\description{
+the GROlogis 3 parameter set
+
+\code{GROlogis3k} - A family of 3 parameter logistic
+functions for size growth modelling, predicting size at
+time t, from initial size M0, and a set of parameters. The
+set includes an inverse and differential, which predict age
+at size M, and growth rates dM/dtime for a size M.
+}
+\author{
+Marco D. Visser
+
+Marco D. Visser
+
+Marco D. Visser
+}
+

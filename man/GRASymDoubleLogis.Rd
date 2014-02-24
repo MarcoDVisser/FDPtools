@@ -1,0 +1,52 @@
+\name{GRASymDoubleLogis}
+\alias{GRASymDoubleLogis}
+\alias{GRAdSymDoubleLogis}
+\alias{GRAiSymDoubleLogis}
+\title{the GRASymDoubleLogis set
+
+\code{GRASymDoubleLogis} - A family of double symmetric logistic functions for
+gradient modelling. These models are usually used to predict frequency,
+ a probabily or fractions over x (distance, time, concentration).
+The 4 parameter model is limited to the range [beta4,beta3].
+The set includes an inverse and differential, which
+give the inverse estimate (x at a given y) or
+dy/dx rates over x.}
+\usage{
+GRASymDoubleLogis(x, beta0, beta1, beta3, betas = NULL)
+
+GRAiSymDoubleLogis(M, M0, r)
+
+GRAdSymDoubleLogis(M, r)
+}
+\arguments{
+  \item{x}{the gradient (size, time, concentration)}
+
+  \item{y}{prediction, used in the inverse form}
+
+  \item{beta0}{intercept}
+
+  \item{beta1}{rate of increase}
+
+  \item{beta3}{second intercept}
+
+  \item{betas}{vector to input all parameters in one go}
+}
+\description{
+the GRASymDoubleLogis set
+
+\code{GRASymDoubleLogis} - A family of double symmetric
+logistic functions for gradient modelling. These models are
+usually used to predict frequency, a probabily or fractions
+over x (distance, time, concentration). The 4 parameter
+model is limited to the range [beta4,beta3]. The set
+includes an inverse and differential, which give the
+inverse estimate (x at a given y) or dy/dx rates over x.
+}
+\author{
+Marco D. Visser
+
+Marco D. Visser
+
+Marco D. Visser
+}
+

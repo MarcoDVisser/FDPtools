@@ -1,0 +1,43 @@
+\name{GROpow}
+\alias{GROdpow}
+\alias{GROipow}
+\alias{GROpow}
+\title{the GROpow set
+\code{GROpow} - A family of power functions for size
+growth modelling, predicting size at time t, from initial size M0,
+and a set of
+parameters. The set includes an inverse and differential, which
+predict age at size M, and growth rates dM/dtime for a size M.}
+\usage{
+GROpow(M0, r, beta, time)
+
+GROipow(M, r, beta, time)
+
+GROdpow(M, r, beta)
+}
+\arguments{
+  \item{time}{time since initial size}
+
+  \item{M}{mass}
+
+  \item{M0}{initial mass}
+
+  \item{r}{growth rate}
+
+  \item{beta}{scaling factor}
+}
+\description{
+the GROpow set \code{GROpow} - A family of power functions
+for size growth modelling, predicting size at time t, from
+initial size M0, and a set of parameters. The set includes
+an inverse and differential, which predict age at size M,
+and growth rates dM/dtime for a size M.
+}
+\author{
+Marco D. Visser
+
+Marco D. Visser
+
+Marco D. Visser
+}
+

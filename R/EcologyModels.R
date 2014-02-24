@@ -308,7 +308,7 @@ r*M*log(K/M)
 #' @export
 GRAlogis2k<-function(x,beta0,beta1,beta3,betas=NULL) {
 if(is.null(betas)) {betas<-c(beta0,beta1)}
-plogis(betas[1]+beta[2]*x)
+plogis(betas[1]+betas[2]*x)
 }
 
 
@@ -398,7 +398,7 @@ print("NOT IMPLEMNETED")
 #' @export
 GRAlogis4k<-function(x,beta0,beta1,beta3,beta4,betas=NULL) {
 if(is.null(betas)) {betas<-c(beta0,beta1,beta3,beta4)}
-betas[3]/(1+exp((betas[1]-x)/betas[2]))
+betas[3]+(betas[4]-betas[3])/(1+exp((betas[1]-x)/betas[2]))
 }
 
 

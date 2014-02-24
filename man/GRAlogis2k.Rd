@@ -1,0 +1,50 @@
+\name{GRAlogis2k}
+\alias{GRAdlogis2k}
+\alias{GRAilogis2k}
+\alias{GRAlogis2k}
+\title{the GRAlogis2k set
+
+\code{GRAlogis2k} - A family of 2 parameter logistic functions for
+gradient modelling. These models are usually used to predict frequency,
+ a probabily or fractions over x (distance, time, concentration). The 2k
+version is bound to the range [0,1].
+The set includes an inverse and differential, which
+give the inverse estimate (x at a given y) or
+dy/dx rates over x.}
+\usage{
+GRAlogis2k(x, beta0, beta1, beta3, betas = NULL)
+
+GRAilogis2k(y, beta0, beta1)
+
+GRAdlogis2k(M, r)
+}
+\arguments{
+  \item{x}{the gradient (size, time, concentration)}
+
+  \item{y}{prediction, used in the inverse form}
+
+  \item{beta0}{intercept}
+
+  \item{beta1}{rate of increase}
+
+  \item{betas}{vector to input all parameters in one go}
+}
+\description{
+the GRAlogis2k set
+
+\code{GRAlogis2k} - A family of 2 parameter logistic
+functions for gradient modelling. These models are usually
+used to predict frequency, a probabily or fractions over x
+(distance, time, concentration). The 2k version is bound to
+the range [0,1]. The set includes an inverse and
+differential, which give the inverse estimate (x at a given
+y) or dy/dx rates over x.
+}
+\author{
+Marco D. Visser
+
+Marco D. Visser
+
+Marco D. Visser
+}
+

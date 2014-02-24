@@ -1,0 +1,50 @@
+\name{GROGompertz}
+\alias{GROGompertz}
+\alias{GROdGompertz}
+\alias{GROiGompertz}
+\title{the GROGompertz set
+
+\code{GROGompertz} - A family of Gompertz functions for size
+growth modelling,
+predicting size at time t, from initial size M0, and a set of
+parameters. The set includes an inverse and differential, which
+predict age at size M, and growth rates dM/dtime for a size M.}
+\usage{
+GROGompertz(M0, K, r, time = 1)
+
+GROiGompertz(M, M0, K, r)
+
+GROdGompertz(M, K, r)
+}
+\arguments{
+  \item{time}{time since initial size}
+
+  \item{M}{mass}
+
+  \item{M0}{initial mass}
+
+  \item{K}{asymptotic size}
+
+  \item{r}{growth rate}
+
+  \item{L}{lowerlimit}
+
+  \item{P}{scaling parameter?}
+}
+\description{
+the GROGompertz set
+
+\code{GROGompertz} - A family of Gompertz functions for
+size growth modelling, predicting size at time t, from
+initial size M0, and a set of parameters. The set includes
+an inverse and differential, which predict age at size M,
+and growth rates dM/dtime for a size M.
+}
+\author{
+Marco D. Visser
+
+Marco D. Visser
+
+Marco D. Visser
+}
+

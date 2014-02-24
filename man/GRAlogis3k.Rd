@@ -1,0 +1,52 @@
+\name{GRAlogis3k}
+\alias{GRAdlogis3k}
+\alias{GRAilogis3k}
+\alias{GRAlogis3k}
+\title{the GRAlogis3k set
+
+\code{GRAlogis3k} - A family of 3 parameter logistic functions for
+gradient modelling. These models are usually used to predict frequency,
+ a probabily or fractions over x (distance, time, concentration) though
+though they are not limited to the range [0,1].
+The set includes an inverse and differential, which
+give the inverse estimate (x at a given y) or
+dy/dx rates over x.}
+\usage{
+GRAlogis3k(x, beta0, beta1, beta3, betas = NULL)
+
+GRAilogis3k(M, M0, r)
+
+GRAdlogis3k(M, r)
+}
+\arguments{
+  \item{x}{the gradient (size, time, concentration)}
+
+  \item{y}{prediction, used in the inverse form}
+
+  \item{beta0}{intercept}
+
+  \item{beta1}{rate of increase}
+
+  \item{beta3}{Asymtotic rate}
+
+  \item{betas}{vector to input all parameters in one go}
+}
+\description{
+the GRAlogis3k set
+
+\code{GRAlogis3k} - A family of 3 parameter logistic
+functions for gradient modelling. These models are usually
+used to predict frequency, a probabily or fractions over x
+(distance, time, concentration) though though they are not
+limited to the range [0,1]. The set includes an inverse and
+differential, which give the inverse estimate (x at a given
+y) or dy/dx rates over x.
+}
+\author{
+Marco D. Visser
+
+Marco D. Visser
+
+Marco D. Visser
+}
+
