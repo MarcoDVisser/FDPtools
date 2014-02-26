@@ -10,9 +10,9 @@ from initial size M0, and a set of
 parameters. The set includes an inverse and differential, which
 predict age at size M, and growth rates dM/dtime for a size M.}
 \usage{
-GROlinear(M0, K, r, time = 1)
+GROlinear(M0, r, time = 1, betas = NULL)
 
-GROilinear(M, M0, r)
+GROilinear(M, M0, r, betas = NULL)
 
 GROdlinear(M, r)
 }

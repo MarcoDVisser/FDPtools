@@ -9,9 +9,9 @@ from initial size M0, and a set of
 parameters. The set includes an inverse and differential, which
 predict age at size M, and growth rates dM/dtime for a size M.}
 \usage{
-GROexp(M0, r, time)
+GROexp(M0, r, time, betas = NULL)
 
-GROiexp(M0, r, time)
+GROiexp(M0, r, time, betas = NULL)
 
 GROdexp(M, r)
 }

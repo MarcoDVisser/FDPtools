@@ -10,9 +10,9 @@ predicting size at time t, from initial size M0, and a set of
 parameters. The set includes an inverse and differential, which
 predict age at size M, and growth rates dM/dtime for a size M.}
 \usage{
-GROGompertz(M0, K, r, time = 1)
+GROGompertz(M0, K, r, time = 1, betas = NULL)
 
-GROiGompertz(M, M0, K, r)
+GROiGompertz(M, M0, K, r, betas = NULL)
 
 GROdGompertz(M, K, r)
 }

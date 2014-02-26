@@ -10,9 +10,9 @@ predicting size at time t, from initial size M0, and a set of
 parameters. The set includes an inverse and differential, which
 predict age at size M, and growth rates dM/dtime for a size M.}
 \usage{
-GROlogis4k(M0, K, L, P, r, time = 1)
+GROlogis4k(M0, K, r, L, P, time = 1, betas = NULL)
 
-GROilogis4k(M, M0, K, L, P, r)
+GROilogis4k(M, M0, K, r, L, P, betas = NULL)
 
 GROdlogis4k(M, L, K, r)
 }

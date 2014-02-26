@@ -9,9 +9,9 @@ and a set of
 parameters. The set includes an inverse and differential, which
 predict age at size M, and growth rates dM/dtime for a size M.}
 \usage{
-GROpow(M0, r, beta, time)
+GROpow(M0, r, beta, time, betas = NULL)
 
-GROipow(M, r, beta, time)
+GROipow(M, M0, r, beta, time, betas = NULL)
 
 GROdpow(M, r, beta)
 }

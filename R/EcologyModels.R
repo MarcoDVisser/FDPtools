@@ -22,13 +22,19 @@
 #' @author Marco D. Visser
 #' 
 #' @export
-GROlinear<-function(M0,K,r,time=1) (M0+r*time)
+GROlinear<-function(M0,r,time=1,betas=NULL) {
+  if(!is.null(betas)) {
+    r <- betas[1] }
+  (M0+r*time) }
 
 #' @rdname GROlinear
 #' @author Marco D. Visser
 #' 
 #' @export
-GROilinear <- function(M,M0,r) {
+GROilinear <- function(M,M0,r,betas=NULL) {
+  if(!is.null(betas)) {
+    r <- betas[1]
+    }
 (M-M0)/r
 }
 
@@ -59,7 +65,10 @@ r
 #' @author Marco D. Visser
 #' 
 #' @export
-GROexp <- function(M0,r,time) {
+GROexp <- function(M0,r,time,betas=NULL) {
+  if(!is.null(betas)) {
+    r <- betas[1]
+    }
  M0*exp(r*time)
 }
 
@@ -67,7 +76,10 @@ GROexp <- function(M0,r,time) {
 #' @author Marco D. Visser
 #' 
 #' @export
-GROiexp <- function(M0,r,time) {
+GROiexp <- function(M0,r,time,betas=NULL) {
+  if(!is.null(betas)) {
+    r <- betas[1]
+    }
  M0*exp(r*time)
 }
 
@@ -99,7 +111,10 @@ GROdexp <- function(M,r) {
 #' @author Marco D. Visser
 #' 
 #' @export
-GROpow <- function(M0,r,beta,time) {
+GROpow <- function(M0,r,beta,time,betas=NULL) {
+  if(!is.null(betas)) {
+    r <- betas[1]
+    beta <- betas[2] }
 ((M0^(1-beta))+r*time*(1-beta))^(1/(1-beta))
 }
 
@@ -107,7 +122,10 @@ GROpow <- function(M0,r,beta,time) {
 #' @author Marco D. Visser
 #' 
 #' @export
-GROipow <- function(M,r,beta,time) {
+GROipow <- function(M,M0,r,beta,time,betas=NULL) {
+  if(!is.null(betas)) {
+    r <- betas[1]
+    beta <- betas[2] }
 M^(1-beta)/((beta-1)*r)
 }
 
@@ -139,13 +157,21 @@ GROdpow <- function(M,r,beta) {
 #' @author Marco D. Visser
 #' 
 #' @export
-GROlogis3k<-function(M0,K,r,time=1) (M0*K)/(M0+(K-M0)*exp(-r*time))
+GROlogis3k<-function(M0,K,r,time=1,betas=NULL) {
+  if(!is.null(betas)) {
+    K <- betas[1]
+    r <- betas[2] }
+(M0*K)/(M0+(K-M0)*exp(-r*time))
+}
 
 #' @rdname GROlogis3k
 #' @author Marco D. Visser
 #' 
 #' @export
-GROilogis3k <- function(M,M0,K,r) {
+GROilogis3k <- function(M,M0,K,r,betas=NULL) {
+  if(!is.null(betas)) {
+    K <- betas[1]
+    r <- betas[2] }
 log((K*M)/(K*M0-M*M0)-(M*M0)/(K*M0-M*M0))/r
 }
 
@@ -179,7 +205,13 @@ GROdlogis3k <- function(M,r) {
 #' @author Marco D. Visser
 #' 
 #' @export
-GROlogis4k<-function(M0,K,L,P,r,time=1) {
+GROlogis4k<-function(M0,K,r,L,P,time=1,betas=NULL) {
+  if(!is.null(betas)) {
+    K <- betas[1]
+    r <- betas[2]
+    L <- betas[3]
+    P <- betas[4]
+  }
 L+((M0*(K-L))/(M0+P*exp(-r*time)))
 }
  
@@ -188,7 +220,13 @@ L+((M0*(K-L))/(M0+P*exp(-r*time)))
 #' @author Marco D. Visser
 #' 
 #' @export
-GROilogis4k <- function(M,M0,K,L,P,r) {
+GROilogis4k <- function(M,M0,K,r,L,P,betas=NULL) {
+  if(!is.null(betas)) {
+    K <- betas[1]
+    r <- betas[2]
+    L <- betas[3]
+    P <- betas[4]
+      }
 log((M*P)/(K*M0-M*M0)-(L*P)/(K*M0-M*M0))/r
 }
 
@@ -222,7 +260,10 @@ r*(M-L)*((K-M)/(K-L))
 #' @author Marco D. Visser
 #' 
 #' @export
-GROmonomol<-function(M0,K,r,time=1) {
+GROmonomol<-function(M0,K,r,time=1,betas=NULL) {
+  if(!is.null(betas)) {
+    K <- betas[1]
+    r <- betas[2] }
 K - exp(r*time) * (K- M0)
 }
  
@@ -231,7 +272,10 @@ K - exp(r*time) * (K- M0)
 #' @author Marco D. Visser
 #' 
 #' @export
-GROimonomol <- function(M,M0,K,r) {
+GROimonomol <- function(M,M0,K,r,betas=NULL) {
+  if(!is.null(betas)) {
+    K <- betas[1]
+    r <- betas[2] }
 log((K/(K-M0))-(M/(K-M0)))/r
 }
 
@@ -265,7 +309,10 @@ r*(K-M)
 #' @author Marco D. Visser
 #' 
 #' @export
-GROGompertz<-function(M0,K,r,time=1) {
+GROGompertz<-function(M0,K,r,time=1,betas=NULL) {
+  if(!is.null(betas)) {
+    K <- betas[1]
+    r <- betas[2] }
 K*(M0/K)^exp(-r*time)
 }
  
@@ -273,7 +320,10 @@ K*(M0/K)^exp(-r*time)
 #' @author Marco D. Visser
 #' 
 #' @export
-GROiGompertz <- function(M,M0,K,r) {
+GROiGompertz <- function(M,M0,K,r,betas=NULL) {
+  if(!is.null(betas)) {
+    K <- betas[1]
+    r <- betas[2] }
 log(log(M0/K)/log(M/K))/r
 }
 
