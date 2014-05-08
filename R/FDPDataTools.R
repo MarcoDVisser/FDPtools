@@ -1,4 +1,4 @@
-############################################################
+ ############################################################
 # Helper functions used to organise the FDP datasets
 # Marco Visser, Gamboa, Panama, February 2014
 ############################################################
@@ -17,7 +17,6 @@
 #' A paired format, is where each consecutive census is paired. This is the
 #' standard growth analysis format. Or a trajectory format, where all data are
 #' organized next to each other (this is for growth trajectory analysis).
-#' Only trajectory format is allowed for seedling data.
 #' @param SpFitList A vector of 6 char species codes, if null all species
 #' are used.
 #' 
@@ -28,11 +27,42 @@ prepareFDPdata <- function(FDPobjects = ls()[grep("bci.full",ls())][3:7],
                            census = "tree", type = 'paired',SpFitList=NULL) {
 
   if(census=='seedling'){
-    if(type=='paired') {stop("paired format not available for seedlings")}
+    if(type=='paired') {
+
+      
+      prepdata <- lapply(FDPobjects, function(X) subset(get(X),
+                                                        SPP%in%SpFitList))
+      dbhhght <- lapply(prepdata,function(X) X[,c("SPP","dbh","alt","status","date")])
+      
+      censuspairs <- vector("list",length(dbhhght)-1)
+      
+      for(i in 1:length(censuspairs)){
+        censuspairs[[i]] <- c((1:(length(FDPobjects)-1))[i],(2:length(FDPobjects))[i])
+      }
+      
+      tempdatapairs <- lapply(censuspairs, function(X) {
+        cbind(dbhhght[[X[1]]],dbhhght[[X[2]]])
+      })
+      
+      censustracker <- lapply(censuspairs, function(X) {
+        rep(paste(X,collapse=''), nrow(dbhhght[[X[1]]]))
+      })
+      
+      finalgrowthlong <- do.call(rbind,tempdatapairs)
+      names(finalgrowthlong) <- c(paste(names(dbhhght[[1]]),1,sep=''),
+                              paste(names(dbhhght[[1]]),2,sep=''))
+      finalgrowthlong$census <- as.factor(unlist(censustracker))
+      rm(tempdatapairs)
+      
+      growclean<-finalgrowthlong
+      class(growclean) <- c(class(growclean),"fdpdata",type,census)
+
+    }
+    else {
 
     ## combine Joe and Liza's census data in one format
     if(is.null(SpFitList)){SpFitList <- unique(get(FDPobjects[1])$SPP)}
-  prepdata <- lapply(FDPobjects, function(X) subset(get(X),
+    prepdata <- lapply(FDPobjects, function(X) subset(get(X),
                                                      SPP%in%toupper(SpFitList)))
 
       ## subset data and only include what is needed
@@ -60,7 +90,7 @@ prepareFDPdata <- function(FDPobjects = ls()[grep("bci.full",ls())][3:7],
     class(growclean) <- c(class(growclean),"fdpdata",type,census)
   
   }
-
+  }
   
  if(census=='tree'){
   if(is.null(SpFitList)){SpFitList <- unique(get(FDPobjects[1])$sp)}
@@ -193,7 +223,7 @@ extractData <- function(FDPdata=NULL,type='growth', datestan=21) {
 
     ## 1)  Resprouter cohorts
     ## find resprouters based on code (as this is most reliable
-    codesub<-FDPdata[,paste0("code",1:5)]
+    codesub<-FDPdata[,paste0("code",1:Ncen)]
 
     ## remove individuals that were already resprouting in the
     ## first census
@@ -202,19 +232,19 @@ extractData <- function(FDPdata=NULL,type='growth', datestan=21) {
     resprouters <- FDPdata[!cen1resprout,]
 
     ## limit data to the rest of the resprouters
-    Rid <- apply(resprouters[,paste0("code",1:5)],1
+    Rid <- apply(resprouters[,paste0("code",1:Ncen)],1
                  ,function(x) is.element("R",x))
 
     resprouters <- resprouters[Rid,]
 
     ## Id start and end of resprouter status
-    codesub<-resprouters[,paste0("code",1:5)]
+    codesub<-resprouters[,paste0("code",1:Ncen)]
     firstresprout <- suppressWarnings(sapply(1:dim(codesub)[1],function(X) 
                                              min(which(codesub[X,]=='R'))))
-    resprouter$fr <- firstresprout
+    resprouters$fr <- firstresprout
 
     ## finalize
-    return(resprouter)
+    return(resprouters)
   }
 
   
@@ -365,8 +395,29 @@ extractData <- function(FDPdata=NULL,type='growth', datestan=21) {
 #'@export
 extractDataSeedling <- function(FDPdata=NULL,type='growth') {
 
-  Ncen <- length(grep("alt",names(FDPdata)))
+  if(is.element(type,c('growth','paired'))&
+                is.element("paired",class(FDPdata))) {
+   FDPdata <- subset(FDPdata,alt1>0&alt2>0)
+   FDPdata$int <- (FDPdata$date2-FDPdata$date1)/365.25
+   FDPdata$grw <- (FDPdata$alt2-FDPdata$alt1)/as.numeric(FDPdata$int)
+   return(FDPdata)
 
+  }
+
+  if(type=='survival'&is.element("paired",class(FDPdata))) {
+
+    survivallong <- subset(FDPdata,status1=='A')
+    survivallong$surv <- survivallong$status2=='A'
+    survivallong$T <- as.numeric((survivallong$date2-survivallong$date1))/356.25
+    survclean <- subset(survivallong,!is.na(alt1))
+    return(survclean)
+    
+  }
+
+  if(is.element("trajectory",class(FDPdata))) {
+ 
+   Ncen <- length(grep("alt",names(FDPdata)))
+  
   ## make all -2 and -9 into NA
   heightdata <- FDPdata[,paste0('alt',1:Ncen)]
   makeNApoints <- (is.na(heightdata)|heightdata<=0)
@@ -451,8 +502,8 @@ extractDataSeedling <- function(FDPdata=NULL,type='growth') {
         pairdata <- cbind(growclean,survdates)
         return(pairdata)}
 
-    } else {return(growclean)}
-
+    }  else {return(growclean)}
+ }
 }
 
 extractData<-cmpfun(extractData)
