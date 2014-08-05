@@ -89,7 +89,10 @@ GROiexp <- function(M0,r,time,betas=NULL) {
 #' @author Marco D. Visser
 #' 
 #' @export
-GROdexp <- function(M,r) {
+GROdexp <- function(M,r,betas=NULL) {
+  if(!is.null(betas)) {
+    r <- betas[1]
+    }
  r*M
 }
 

@@ -122,3 +122,28 @@ summary.FDPmodel <- function(modelfit,...) {
 
   return(list('DIC'=DICs,'Parameters'=MeanEst,'CI'=CI))
 }
+
+
+
+#' Calculate fit statistics 
+#' 
+#' \code{FitStats} - Calculates various fit statistics, including
+#' Delta AIC/DIC/BIC values from a set of stats, AIC weighst and ...
+#' list to grow.
+#' 
+#' @param fitvalues a list of AIC, DIC or BIC values
+#' @param stat do you wish to calculate 'delta' values, 'weights' or ...
+#' list to grow.
+#' when the model is returned?
+#' @param ... additional parameters to be passed to \code{jags.model}
+#' 
+#' @author Marco D. Visser
+#' 
+#' @export
+FitStats <- function(fitvalues,stat='delta'){
+
+  deltas <- fitvalues - sort(fitvalues)[1]
+  if(stat=='delta') return(deltas)
+  weights <- exp(-.5*deltas)/sum(exp(-.5*deltas))
+  if(stat=='weights') return(weights)
+}

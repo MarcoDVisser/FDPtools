@@ -31,8 +31,8 @@ prepareFDPdata <- function(FDPobjects = ls()[grep("bci.full",ls())][3:7],
 
       
       prepdata <- lapply(FDPobjects, function(X) subset(get(X),
-                                                        SPP%in%SpFitList))
-      dbhhght <- lapply(prepdata,function(X) X[,c("SPP","dbh","alt","status","date")])
+                                                        sp%in%SpFitList))
+      dbhhght <- lapply(prepdata,function(X) X[,c("sp","dbh","hght","status","date")])
       
       censuspairs <- vector("list",length(dbhhght)-1)
       
@@ -61,19 +61,19 @@ prepareFDPdata <- function(FDPobjects = ls()[grep("bci.full",ls())][3:7],
     else {
 
     ## combine Joe and Liza's census data in one format
-    if(is.null(SpFitList)){SpFitList <- unique(get(FDPobjects[1])$SPP)}
+    if(is.null(SpFitList)){SpFitList <- unique(get(FDPobjects[1])$sp)}
     prepdata <- lapply(FDPobjects, function(X) subset(get(X),
-                                                     SPP%in%toupper(SpFitList)))
+                                                     sp%in%toupper(SpFitList)))
 
       ## subset data and only include what is needed
   
    censusdata <- lapply(prepdata,function(X)
-                     X[,c("SPP","TAG","plotnum","alt","dbh","status","date")])
+                     X[,c("sp","TAG","plotnum","hght","dbh","status","date")])
 
     
   ## extract data
     dbhdata <- do.call(cbind,lapply(censusdata,function(X) X[,"dbh"]))
-    altdata <- do.call(cbind,lapply(censusdata,function(X) X[,"alt"]))
+    hghtdata <- do.call(cbind,lapply(censusdata,function(X) X[,"hght"]))
     survivaldata <- do.call(cbind,lapply(censusdata,function(X)
                                          as.character(X[,"status"])))
 
@@ -82,11 +82,11 @@ prepareFDPdata <- function(FDPobjects = ls()[grep("bci.full",ls())][3:7],
     ## rename columns
     colnames(dbhdata) = paste0("dbh",1:dim(dbhdata)[2])
     colnames(survivaldata) = paste0("survival",1:dim(survivaldata)[2])
-    colnames(altdata) = paste0("alt",1:dim(altdata)[2])
+    colnames(hghtdata) = paste0("hght",1:dim(hghtdata)[2])
     colnames(datedata) = paste0("date",1:dim(datedata)[2])
     ## get meta data
-    metadata <- censusdata[[1]][,c("TAG","SPP")]
-    growclean <- cbind(metadata,dbhdata,altdata,survivaldata,datedata)
+    metadata <- censusdata[[1]][,c("TAG","sp")]
+    growclean <- cbind(metadata,dbhdata,hghtdata,survivaldata,datedata)
     class(growclean) <- c(class(growclean),"fdpdata",type,census)
   
   }
@@ -397,9 +397,9 @@ extractDataSeedling <- function(FDPdata=NULL,type='growth') {
 
   if(is.element(type,c('growth','paired'))&
                 is.element("paired",class(FDPdata))) {
-   FDPdata <- subset(FDPdata,alt1>0&alt2>0)
+   FDPdata <- subset(FDPdata,hght1>0&hght2>0)
    FDPdata$int <- (FDPdata$date2-FDPdata$date1)/365.25
-   FDPdata$grw <- (FDPdata$alt2-FDPdata$alt1)/as.numeric(FDPdata$int)
+   FDPdata$grw <- (FDPdata$hght2-FDPdata$hght1)/as.numeric(FDPdata$int)
    return(FDPdata)
 
   }
@@ -409,24 +409,24 @@ extractDataSeedling <- function(FDPdata=NULL,type='growth') {
     survivallong <- subset(FDPdata,status1=='A')
     survivallong$surv <- survivallong$status2=='A'
     survivallong$T <- as.numeric((survivallong$date2-survivallong$date1))/356.25
-    survclean <- subset(survivallong,!is.na(alt1))
+    survclean <- subset(survivallong,!is.na(hght1))
     return(survclean)
     
   }
 
   if(is.element("trajectory",class(FDPdata))) {
  
-   Ncen <- length(grep("alt",names(FDPdata)))
+   Ncen <- length(grep("hght",names(FDPdata)))
   
   ## make all -2 and -9 into NA
-  heightdata <- FDPdata[,paste0('alt',1:Ncen)]
+  heightdata <- FDPdata[,paste0('hght',1:Ncen)]
   makeNApoints <- (is.na(heightdata)|heightdata<=0)
   heightdata[makeNApoints] <- NA
   ## overwrite original
-  heightdata -> FDPdata[,paste0('alt',1:Ncen)]
+  heightdata -> FDPdata[,paste0('hght',1:Ncen)]
   
    ## which data points have information in them?
-  heightdata <- FDPdata[,paste0('alt',1:Ncen)]
+  heightdata <- FDPdata[,paste0('hght',1:Ncen)]
   infopoints <- !(is.na(heightdata))
   
     if(type=='growth'){
@@ -441,7 +441,7 @@ extractDataSeedling <- function(FDPdata=NULL,type='growth') {
 
     
   ## update infopoints
-  heightdata <- growclean[,paste0('alt',1:Ncen)]
+  heightdata <- growclean[,paste0('hght',1:Ncen)]
   infopoints <- !(is.na(heightdata))
   ##id the first and last census with information
   growclean$start <- sapply(1:dim(infopoints)[1],function(X)
