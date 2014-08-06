@@ -1,4 +1,4 @@
- ############################################################
+############################################################
 # Helper functions used to organise the FDP datasets
 # Marco Visser, Gamboa, Panama, February 2014
 ############################################################
@@ -68,7 +68,7 @@ prepareFDPdata <- function(FDPobjects = ls()[grep("bci.full",ls())][3:7],
       ## subset data and only include what is needed
   
    censusdata <- lapply(prepdata,function(X)
-                     X[,c("sp","TAG","plotnum","hght","dbh","status","date")])
+                     X[,c("sp","id","plot","hght","dbh","status","date")])
 
     
   ## extract data
@@ -85,7 +85,7 @@ prepareFDPdata <- function(FDPobjects = ls()[grep("bci.full",ls())][3:7],
     colnames(hghtdata) = paste0("hght",1:dim(hghtdata)[2])
     colnames(datedata) = paste0("date",1:dim(datedata)[2])
     ## get meta data
-    metadata <- censusdata[[1]][,c("TAG","sp")]
+    metadata <- censusdata[[1]][,c("id","sp")]
     growclean <- cbind(metadata,dbhdata,hghtdata,survivaldata,datedata)
     class(growclean) <- c(class(growclean),"fdpdata",type,census)
   
