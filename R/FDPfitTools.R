@@ -13,7 +13,7 @@
 #' @param modellist A vector containing the location and names
 #' of the jags model files. These files should be read in R,
 #' as a modelstring. These files must also generate a vector of
-#' model parameter names to be return (in a object called interestlist)
+#' model parameter names to be returned (in a object called interestlist)
 #' @param gelmanthr Gelman threshold values to except fit
 #' @param StepIt what is the standard number of MCMC samples to
 #' take before checking for convergence?
@@ -21,12 +21,16 @@
 #' @param FinalSampleLength How many posterior sample do you need
 #' when the model is returned?
 #' @param ... additional parameters to be passed to \code{jags.model}
-#' 
+#' @param hlist Use this when you have a list of higher parameters
+#' that should converge first
+#' before convergence of lower parameters (in interestlist) should be
+#' checked.
 #' @author Marco D. Visser
 #' 
 #' @export
 FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
-                    StepIt=1000, MaxIt=1e4, FinalSampleLength=500, ...) {
+                    StepIt=1000, MaxIt=1e4, FinalSampleLength=500,
+                    hlist=NULL,...) {
   if(is.null(JAGSdata)) {stop("JAGSdata is null, supply data?")}
   if(is.null(modellist)) {stop("modellist is null, supply model(s)?")}
   if(round(MaxIt-StepIt)<=0) {print("MaxIt is too small, changing to
@@ -51,6 +55,22 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
                               ,n.adapt=round(StepIt),...)
     gelman <- data.frame(mpsrf=gelmanthr+1)
     CurIt <- StepIt
+
+    if(!is.null(hlist)){
+    if(length(hlist)>1){
+    while(gelman$mpsrf>=gelmanthr) {
+    codasamp <- coda.samples(model,hlist,StepIt)
+                                        #Smaller list for saving
+    gelman <- gelman.diag(codasamp)
+    CurIt <- CurIt + StepIt
+    print(paste("Hyper parameters - gelman statistic:", gelman$mpsrf))
+    if(CurIt>=MaxIt) {break}
+  }
+  } else {message("hlist only has one parameter, 
+                   skipping convergence check")}
+
+    }
+
     if(length(interestlist)>1){
     while(gelman$mpsrf>=gelmanthr) {
     codasamp <- coda.samples(model,interestlist,StepIt)
