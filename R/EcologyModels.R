@@ -25,7 +25,8 @@
 GROlinear<-function(M0,r,time=1,betas=NULL) {
   if(!is.null(betas)) {
     r <- betas[1] }
-  (M0+r*time) }
+  return((M0+r*time))
+}
 
 #' @rdname GROlinear
 #' @author Marco D. Visser
@@ -35,7 +36,7 @@ GROilinear <- function(M,M0,r,betas=NULL) {
   if(!is.null(betas)) {
     r <- betas[1]
     }
-(M-M0)/r
+return((M-M0)/r)
 }
 
 #' @rdname GROlinear
@@ -45,7 +46,7 @@ GROilinear <- function(M,M0,r,betas=NULL) {
 GROdlinear <- function(M,r,betas=NULL) {
   if(!is.null(betas)) {
     r <- betas[1] }
-(r*M)/M
+return((r*M)/M)
 }
 
 #' @name GROexp
@@ -71,7 +72,7 @@ GROexp <- function(M0,r,time,betas=NULL) {
   if(!is.null(betas)) {
     r <- betas[1]
     }
- M0*exp(r*time)
+return( M0*exp(r*time))
 }
 
 #' @rdname GROexp
@@ -82,7 +83,7 @@ GROiexp <- function(M0,r,time,betas=NULL) {
   if(!is.null(betas)) {
     r <- betas[1]
     }
- M0*exp(r*time)
+return( M0*exp(r*time))
 }
 
 #' @rdname GROexp
@@ -93,7 +94,7 @@ GROdexp <- function(M,r,betas=NULL) {
   if(!is.null(betas)) {
     r <- betas[1]
     }
- r*M
+ return(r*M)
 }
 
 #' @name GROpow
@@ -120,7 +121,7 @@ GROpow <- function(M0,beta,r,time,betas=NULL) {
   if(!is.null(betas)) {
     beta <- betas[1]
     r <- betas[2] }
-((M0^(1-beta))+r*time*(1-beta))^(1/(1-beta))
+return(((M0^(1-beta))+r*time*(1-beta))^(1/(1-beta)))
 }
 
 #' @rdname GROpow
@@ -131,7 +132,7 @@ GROipow <- function(M,M0,r,beta,time,betas=NULL) {
   if(!is.null(betas)) {
     beta <- betas[1]
     r <- betas[2] }
-M^(1-beta)/((beta-1)*r)
+return(M^(1-beta)/((beta-1)*r))
 }
 
 #' @rdname GROpow
@@ -144,7 +145,7 @@ if(!is.null(betas)) {
     beta <- betas[1]
     r <- betas[2] }
 
-r*M^beta
+return(r*M^beta)
 }
 
 #' @name GROlogis3k
@@ -171,7 +172,7 @@ GROlogis3k<-function(M0,K,r,time=1,betas=NULL) {
   if(!is.null(betas)) {
     K <- betas[1]
     r <- betas[2] }
-(M0*K)/(M0+(K-M0)*exp(-r*time))
+return((M0*K)/(M0+(K-M0)*exp(-r*time)))
 }
 
 #' @rdname GROlogis3k
@@ -182,7 +183,7 @@ GROilogis3k <- function(M,M0,K,r,betas=NULL) {
   if(!is.null(betas)) {
     K <- betas[1]
     r <- betas[2] }
-log((K*M)/(K*M0-M*M0)-(M*M0)/(K*M0-M*M0))/r
+return(log((K*M)/(K*M0-M*M0)-(M*M0)/(K*M0-M*M0))/r)
 }
 
 #' @rdname GROlogis3k
@@ -194,7 +195,7 @@ GROdlogis3k <- function(M,K,r,betas=NULL) {
     K <- betas[1]
     r <- betas[2] }
 
-r*M*(1-(M/K))
+return(r*M*(1-(M/K)))
 }
 
 #' @name GROlogis4k
@@ -226,7 +227,7 @@ GROlogis4k<-function(M0,K,L,P,r,time=1,betas=NULL) {
     P <- betas[3]
     r <- betas[4]
   }
-L+((M0*(K-L))/(M0+P*exp(-r*time)))
+return(L+((M0*(K-L))/(M0+P*exp(-r*time))))
 }
  
 
@@ -241,7 +242,7 @@ GROilogis4k <- function(M,M0,K,r,L,P,betas=NULL) {
     P <- betas[3]
     r <- betas[4]
       }
-log((M*P)/(K*M0-M*M0)-(L*P)/(K*M0-M*M0))/r
+return(log((M*P)/(K*M0-M*M0)-(L*P)/(K*M0-M*M0))/r)
 }
 
 #' @rdname GROlogis4k
@@ -253,7 +254,7 @@ GROdlogis4k <- function(M,L,K,r,betas=NULL) {
     K <- betas[1]
     L <- betas[2]
     r <- betas[3] }
-r*(M-L)*((K-M)/(K-L))
+return(r*(M-L)*((K-M)/(K-L)))
 }
 
 #' @name GROmonomol
@@ -282,7 +283,7 @@ GROmonomol<-function(M0,K,r,time=1,betas=NULL) {
   if(!is.null(betas)) {
     K <- betas[1]
     r <- betas[2] }
-K - exp(r*time) * (K- M0)
+return(K - exp(r*time) * (K- M0))
 }
  
 
@@ -294,7 +295,7 @@ GROimonomol <- function(M,M0,K,r,betas=NULL) {
   if(!is.null(betas)) {
     K <- betas[1]
     r <- betas[2] }
-log((K/(K-M0))-(M/(K-M0)))/r
+return(log((K/(K-M0))-(M/(K-M0)))/r)
 }
 
 #' @rdname GROmonomol
@@ -305,7 +306,7 @@ GROdmonomol <- function(M,K,r,betas=NULL) {
   if(!is.null(betas)) {
     K <- betas[1]
     r <- betas[2] }
-r*(K-M)
+return(r*(K-M))
 }
 
 #' @name GROGompertz
@@ -334,7 +335,7 @@ GROGompertz<-function(M0,K,r,time=1,betas=NULL) {
   if(!is.null(betas)) {
     K <- betas[1]
     r <- betas[2] }
-K*(M0/K)^exp(-r*time)
+return(K*(M0/K)^exp(-r*time))
 }
  
 #' @rdname GROGompertz
@@ -345,7 +346,7 @@ GROiGompertz <- function(M,M0,K,r,betas=NULL) {
   if(!is.null(betas)) {
     K <- betas[1]
     r <- betas[2] }
-log(log(M0/K)/log(M/K))/r
+return(log(log(M0/K)/log(M/K))/r)
 }
 
 #' @rdname GROGompertz
@@ -356,7 +357,7 @@ GROdGompertz <- function(M,K,r,betas=NULL) {
   if(!is.null(betas)) {
     K <- betas[1]
     r <- betas[2] }
-r*M*log(K/M)
+return(r*M*log(K/M))
 }
 
 #' @name GRAlogis2k
@@ -382,7 +383,7 @@ r*M*log(K/M)
 #' @export
 GRAlogis2k<-function(x,beta0,beta1,beta3,betas=NULL) {
 if(is.null(betas)) {betas<-c(beta0,beta1)}
-plogis(betas[1]+betas[2]*x)
+return(plogis(betas[1]+betas[2]*x))
 }
 
 
@@ -391,7 +392,7 @@ plogis(betas[1]+betas[2]*x)
 #' 
 #' @export
 GRAilogis2k <- function(y,beta0,beta1) {
-plogis((qlogis(y)-beta0)/beta[1])
+return(plogis((qlogis(y)-beta0)/beta[1]))
 }
 
 #' @rdname GRAlogis2k
@@ -427,7 +428,7 @@ print("NOT IMPLEMNETED")
 #' @export
 GRAlogis3k<-function(x,beta0,beta1,beta3,betas=NULL) {
 if(is.null(betas)) {betas<-c(beta0,beta1,beta3)}
-betas[3]/(1+exp((betas[1]-x)/betas[2]))
+return(betas[3]/(1+exp((betas[1]-x)/betas[2])))
 }
 
 
@@ -472,7 +473,7 @@ print("NOT IMPLEMNETED")
 #' @export
 GRAlogis4k<-function(x,beta0,beta1,beta3,beta4,betas=NULL) {
 if(is.null(betas)) {betas<-c(beta0,beta1,beta3,beta4)}
-betas[3]+(betas[4]-betas[3])/(1+exp((betas[1]-x)/betas[2]))
+return(betas[3]+(betas[4]-betas[3])/(1+exp((betas[1]-x)/betas[2])))
 }
 
 
@@ -516,7 +517,7 @@ print("NOT IMPLEMNETED")
 #' @export
 GRASymDoubleLogis<-function(x,beta0,beta1,beta3,betas=NULL) {
 if(is.null(betas)) {betas<-c(beta0,beta1,beta3)}
-plogis(betas[1]+betas[2]*x)*plogis(betas[3]-betas[2]*x)
+return(plogis(betas[1]+betas[2]*x)*plogis(betas[3]-betas[2]*x))
 }
 
 
@@ -561,7 +562,7 @@ print("NOT IMPLEMNETED")
 #' @export
 GRAFreeDoubleLogis<-function(x,beta0,beta1,beta3,beta4,betas=NULL) {
 if(is.null(betas)) {betas<-c(beta0,beta1,beta3,beta4)}
-plogis(betas[1]+betas[2]*x)*plogis(betas[3]+betas[4]*x)
+return(plogis(betas[1]+betas[2]*x)*plogis(betas[3]+betas[4]*x))
 }
 
 
