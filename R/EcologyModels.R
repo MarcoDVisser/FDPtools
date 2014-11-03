@@ -171,8 +171,9 @@ return(r*M^beta)
 GROlogis3k<-function(M0,K,r,time=1,betas=NULL) {
   if(!is.null(betas)) {
     K <- betas[1]
-    r <- betas[2] }
-return((M0*K)/(M0+(K-M0)*exp(-r*time)))
+    r <- betas[2]
+  }
+  return((M0*K)/(M0+(K-M0)*exp(-r*time)))
 }
 
 #' @rdname GROlogis3k

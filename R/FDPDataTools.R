@@ -32,7 +32,8 @@ prepareFDPdata <- function(FDPobjects = ls()[grep("bci.full",ls())][3:7],
       
       prepdata <- lapply(FDPobjects, function(X) subset(get(X),
                                                         sp%in%SpFitList))
-      dbhhght <- lapply(prepdata,function(X) X[,c("sp","dbh","hght","status","date")])
+      dbhhght <- lapply(prepdata,function(X) X[,c("sp","dbh","hght","status","date",
+                        "tag")])
       
       censuspairs <- vector("list",length(dbhhght)-1)
       
