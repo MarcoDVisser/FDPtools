@@ -20,7 +20,7 @@ update.packages()
 library(devtools)
 install_github("FDPtools", "MarcoDVisser")
 ```
-Microsoft Windows users will need to install [Rtools](http://www.murdoch-sutherland.com/Rtools/) first.
+As the package depends on compiled code, Microsoft Windows users will need to install [Rtools](http://www.murdoch-sutherland.com/Rtools/) first.
 
 ## Examples 
 ```r
