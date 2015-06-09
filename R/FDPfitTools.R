@@ -3,7 +3,7 @@
 # Marco Visser, Gamboa, Panama, February 2014
 ############################################################
 
-#' Fit and Converge a Jags model
+#' Fit and Converge a list of Jags models
 #' 
 #' \code{FitConv} - runs a Jags model, or list of models,
 #' and checks for convergence using gelman stats. It then
