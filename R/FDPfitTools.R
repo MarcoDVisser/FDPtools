@@ -81,8 +81,8 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
     gelman <- gelman.diag(codasamp)
     CurIt <- CurIt + StepIt
     print(paste("Gelman statistic:", gelman$mpsrf))
-    if(CurIt>=MaxIt&attempt>nattempt) {break}
-    if(CurIt>=MaxIt&attempt<=nattempt){
+    if(CurIt>=MaxIt&attempt>nattempts) {break}
+    if(CurIt>=MaxIt&attempt<=nattempts){
     if(nattempt>1){
            model <- jags.model(data=JAGSdata,file
                                = textConnection(modelstring)
