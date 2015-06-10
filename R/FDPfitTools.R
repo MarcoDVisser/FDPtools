@@ -20,17 +20,20 @@
 #' @param MaxIt What is the maximum number of MCMC samples
 #' @param FinalSampleLength How many posterior sample do you need
 #' when the model is returned?
-#' @param ... additional parameters to be passed to \code{jags.model}
 #' @param hlist Use this when you have a list of higher parameters
 #' that should converge first
 #' before convergence of lower parameters (in interestlist) should be
 #' checked.
+#' @paaram nattemps If model fails to converge at MaxIt, then this
+#' set the number of attempts at which the model will be restarted
+#' (with new initial values).
+#' @param ... additional parameters to be passed to \code{jags.model}
 #' @author Marco D. Visser
 #' 
 #' @export
 FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
                     StepIt=1000, MaxIt=1e4, FinalSampleLength=500,
-                    hlist=NULL,...) {
+                    hlist=NULL,nattemps=2,...) {
   if(is.null(JAGSdata)) {stop("JAGSdata is null, supply data?")}
   if(is.null(modellist)) {stop("modellist is null, supply model(s)?")}
   if(round(MaxIt-StepIt)<=0) {print("MaxIt is too small, changing to
@@ -49,7 +52,7 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
     for(j in 1:Ncandidates){
                                           #Load Baysesian models
     source(modellist[j])
-
+    attempt <- 1
            model <- jags.model(data=JAGSdata,file
                                = textConnection(modelstring)
                               ,n.adapt=round(StepIt),...)
@@ -78,7 +81,16 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
     gelman <- gelman.diag(codasamp)
     CurIt <- CurIt + StepIt
     print(paste("Gelman statistic:", gelman$mpsrf))
-    if(CurIt>=MaxIt) {break}
+    if(CurIt>=MaxIt&attempt>nattempt) {break}
+    if(CurIt>=MaxIt&attempt<=nattempt){
+    if(nattempt>1){
+           model <- jags.model(data=JAGSdata,file
+                               = textConnection(modelstring)
+                               ,n.adapt=round(StepIt),...)
+           print("restarting model")
+           CurIt <- StepIt
+    attempt <- attempt+1
+    }}
   }
   } else {message("interestlist only has one parameter, 
                    skipping convergence check")}
