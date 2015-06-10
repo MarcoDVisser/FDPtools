@@ -60,7 +60,7 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
     if(length(hlist)>1){
     while(gelman$mpsrf>=gelmanthr) {
     codasamp <- coda.samples(model,hlist,StepIt)
-                                        #Smaller list for saving
+    ##Smaller list for saving
     gelman <- gelman.diag(codasamp)
     CurIt <- CurIt + StepIt
     print(paste("Hyper parameters - gelman statistic:", gelman$mpsrf))
@@ -116,31 +116,28 @@ summary.FDPmodel <- function(modelfit,...) {
     stop("modelfit is not of the FDPmodel class")
   }
   
-  if(class(modelfit[[1]][[3]][[1]])!='dic') {
+  if(class(modelfit[[3]][[1]])!='dic') {
     stop("modelfit of unexpected format")
   }
   
-  DICs <- t(sapply(modelfit, function(X) {
-  sapply(X[[3]], function(y) sum(y$deviance)+sum(y$penalty))
-       }))
+  DICs <- sapply(modelfit[[3]], function(X)  sum(na.omit(X$deviance+X$penalty)))
+       
 
-  colnames(DICs) <- modelfit[[4]]
-  bestmod <- apply(DICs,1,function(X) which(X==min(X)))
-  secondbest <- apply(DICs,1,function(X) which(X==sort(X)[2]))
-  DeltaDic <- sapply(1:nrow(DICs), function(X)
-                     DICs[X,secondbest[X]] - DICs[X,bestmod[X]])
+  bestmod <-  which(DICs==min(DICs))
+  secondbest <- which(DICs==sort(DICs)[2])
+  DeltaDic <-  DICs - DICs[bestmod[X]]
   data.frame(DICs) -> DICs
-  DICs <- cbind(DICs,bestmod=bestmod,Delta=DeltaDic)
+  DICs <- cbind(DICs,Delta=DeltaDic,models=modelfit[[4]])
+  
   
   ##Summarize results (alpha + upper lower CI) per species
   
-  MeanEst<-lapply(modelfit,function(X)
-                  summary(modelfit[[2]][[X]][[bestmod[X]]])$statistics)
+  MeanEst<-summary(modelfit[[2]][[bestmod[X]]])$statistics
   
-  CI<-lapply(1:length(sdlhghtsp),function(X)
-             summary(modelfit[[X]][[bestmod[X]]])$quantiles)
+  CI<-summary(modelfit[[2]][[bestmod[X]]])$quantiles
 
-  return(list('DIC'=DICs,'Parameters'=MeanEst,'CI'=CI))
+return(list('DIC'=DICs,'bestmodel'=modelfit[[4]][bestmod]
+            ,'Parameters'=MeanEst,'CI'=CI))
 }
 
 
