@@ -52,7 +52,7 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
     for(j in 1:Ncandidates){
                                           #Load Baysesian models
     source(modellist[j])
-    attempt <- 1
+    attemp<- 1
            model <- jags.model(data=JAGSdata,file
                                = textConnection(modelstring)
                               ,n.adapt=round(StepIt),...)
@@ -81,15 +81,15 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
     gelman <- gelman.diag(codasamp)
     CurIt <- CurIt + StepIt
     print(paste("Gelman statistic:", gelman$mpsrf))
-    if(CurIt>=MaxIt&attempt>nattempts) {break}
-    if(CurIt>=MaxIt&attempt<=nattempts){
+    if(CurIt>=MaxIt&attemp>nattemps) {break}
+    if(CurIt>=MaxIt&attemp<=nattemps){
     if(nattempt>1){
            model <- jags.model(data=JAGSdata,file
                                = textConnection(modelstring)
                                ,n.adapt=round(StepIt),...)
            print("restarting model")
            CurIt <- StepIt
-    attempt <- attempt+1
+    attemp <- attemp+1
     }}
   }
   } else {message("interestlist only has one parameter, 
