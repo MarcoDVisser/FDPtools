@@ -83,11 +83,12 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
     print(paste("Gelman statistic:", gelman$mpsrf))
     if(CurIt>=MaxIt&attemp>nattemps) {break}
     if(CurIt>=MaxIt&attemp<=nattemps){
-    if(nattemps>1){
+      if(nattemps>1){
+        print("--- Giving up on model and restarting ---")
            model <- jags.model(data=JAGSdata,file
                                = textConnection(modelstring)
                                ,n.adapt=round(StepIt),...)
-           print("restarting model")
+           
            CurIt <- StepIt
     attemp <- attemp+1
     }}
