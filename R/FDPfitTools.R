@@ -78,7 +78,12 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
     while(gelman$mpsrf>=gelmanthr) {
     codasamp <- coda.samples(model,interestlist,StepIt)
                                         #Smaller list for saving
-    gelman <- gelman.diag(codasamp)
+    gelman <- tryCatch(gelman.diag(codasamp),error=function(e) NULL)
+    if(is.null(gelman)){
+      print("gelman.diag failed - switched to multivariate = false")
+      gelman  <-  gelman.diag(codasamp,multivariate=FALSE)
+      gelman$mpsrf <- mean(gelman$psrf)
+    }
     CurIt <- CurIt + StepIt
     print(paste("Gelman statistic:", gelman$mpsrf))
     if(CurIt>=MaxIt&attemp>nattemps) {break}
@@ -138,7 +143,7 @@ summary.FDPmodel <- function(modelfit,...) {
 
   bestmod <-  which(DICs==min(DICs))
   secondbest <- which(DICs==sort(DICs)[2])
-  DeltaDic <-  DICs - DICs[bestmod[X]]
+  DeltaDic <-  DICs - DICs[bestmod,]
   data.frame(DICs) -> DICs
   DICs <- cbind(DICs,Delta=DeltaDic,models=modelfit[[4]])
   
