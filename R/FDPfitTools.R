@@ -138,21 +138,22 @@ summary.FDPmodel <- function(modelfit,...) {
     stop("modelfit of unexpected format")
   }
   
-  DICs <- sapply(modelfit[[3]], function(X)  sum(na.omit(X$deviance+X$penalty)))
+  DICs <- as.numeric(sapply(modelfit[[3]],
+                 function(X)  sum(na.omit(X$deviance+X$penalty))))
        
 
   bestmod <-  which(DICs==min(DICs))
   secondbest <- which(DICs==sort(DICs)[2])
-  DeltaDic <-  DICs - DICs[bestmod,]
+  DeltaDic <-  DICs - DICs[bestmod]
   data.frame(DICs) -> DICs
   DICs <- cbind(DICs,Delta=DeltaDic,models=modelfit[[4]])
   
   
   ##Summarize results (alpha + upper lower CI) per species
   
-  MeanEst<-summary(modelfit[[2]][[bestmod[X]]])$statistics
+  MeanEst<-summary(modelfit[[2]][[bestmod]])$statistics
   
-  CI<-summary(modelfit[[2]][[bestmod[X]]])$quantiles
+  CI<-summary(modelfit[[2]][[bestmod]])$quantiles
 
 return(list('DIC'=DICs,'bestmodel'=modelfit[[4]][bestmod]
             ,'Parameters'=MeanEst,'CI'=CI))
