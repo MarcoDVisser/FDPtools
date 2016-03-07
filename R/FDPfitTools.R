@@ -149,7 +149,8 @@ summary.FDPmodel <- function(modelfit,...) {
   secondbest <- which(DICs==sort(DICs)[2])
   DeltaDic <-  DICs - DICs[bestmod]
   data.frame(DICs) -> DICs
-  DICs <- cbind(DICs,Delta=DeltaDic,models=modelfit[[4]])
+    DICs <- cbind(DICs,Delta=DeltaDic,models=modelfit[[4]])
+    gelman <- modelfit[[5]]
   
   
   ##Summarize results (alpha + upper lower CI) per species
@@ -159,7 +160,7 @@ summary.FDPmodel <- function(modelfit,...) {
   CI<-summary(modelfit[[2]][[bestmod]])$quantiles
 
 return(list('DIC'=DICs,'bestmodel'=modelfit[[4]][bestmod]
-            ,'Parameters'=MeanEst,'CI'=CI))
+            ,'Parameters'=MeanEst,'CI'=CI),"Gelman"=gelman)
 }
 
 
