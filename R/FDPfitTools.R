@@ -98,8 +98,11 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
     attemp <- attemp+1
     }}
   }
-  } else {message("interestlist only has one parameter, 
-                   skipping convergence check")}
+    } else {
+        message("interestlist only has one parameter, 
+                   skipping convergence check")
+        gelman <- -2
+  }
     
     codasamp <- coda.samples(model,interestlist,FinalSampleLength)
     DIC<-dic.samples(model,FinalSampleLength)
@@ -110,7 +113,7 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
  
   
   FDPtoolsfitlist <- list(tempmodels,tempmodelsamples,
-                          tempmodelfitstats,modellist)
+                          tempmodelfitstats,modellist,"Gelman Diag."=gelman)
   class(FDPtoolsfitlist) <- c(class(FDPtoolsfitlist),"FDPmodel")
 
   return(FDPtoolsfitlist)
