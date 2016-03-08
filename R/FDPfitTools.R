@@ -187,3 +187,42 @@ FitStats <- function(fitvalues,stat='delta'){
   weights <- exp(-.5*deltas)/sum(exp(-.5*deltas))
   if(stat=='weights') return(weights)
 }
+
+
+#' Summarize models, fitstatistics and get model weighst
+#' based on DIC statistics. 
+#' \code{FDPmodel} - summarizes of a list of
+#' previously fit models returned by \code{FitConv} and calculates
+#' weights.
+#' 
+#' @param modelfit A list of FDPmodel objects returned by FitConv
+#' (e.g. FitConv run on multiple species)
+#' @param ... additional parameters
+#' 
+#' @author Marco D. Visser
+#' 
+#' @export
+calcWeights <- function(modelfit,...) {
+  
+  if(!is.element("FDPmodel",class(modelfit))){
+    stop("modelfit is not of the FDPmodel class")
+  }
+  
+  if(class(modelfit[[3]][[1]])!='dic') {
+    stop("modelfit of unexpected format")
+  }
+  
+  DICs <- as.numeric(sapply(modelfit[[3]],
+                 function(X)  sum(na.omit(X$deviance+X$penalty))))
+       
+
+  bestmod <-  which(DICs==min(DICs))
+  secondbest <- which(DICs==sort(DICs)[2])
+  DeltaDic <-  DICs - DICs[bestmod]
+  weights <- exp(-.5*DeltaDic)/sum(exp(-.5*DeltaDic))
+  data.frame(DICs) -> DICs
+  DICs <- cbind(DICs,Delta=DeltaDic,W=weights,models=modelfit[[4]])
+  
+return(DICs)
+}
+
