@@ -47,6 +47,7 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
   tempmodelsamples <-  vector("list",Ncandidates)
   tempmodelfitstats <-  vector("list",Ncandidates)
   tempmodels <- vector("list",Ncandidates)
+  GelmanStat <- vector("list",Ncandidates)
 
   
     for(j in 1:Ncandidates){
@@ -108,12 +109,13 @@ FitConv <- function(JAGSdata=NULL,modellist=NULL,gelmanthr=1.05,
     DIC<-dic.samples(model,FinalSampleLength)
     tempmodelsamples[[j]] <- codasamp
     tempmodelfitstats[[j]] <- DIC
-    tempmodels[[j]] <- model
+        tempmodels[[j]] <- model
+        GelmanStat[[j]] <- gelman
   }
  
   
   FDPtoolsfitlist <- list(tempmodels,tempmodelsamples,
-                          tempmodelfitstats,modellist,"Gelman Diag."=gelman)
+                          tempmodelfitstats,modellist,"Gelman Diag."=GelmanStat)
   class(FDPtoolsfitlist) <- c(class(FDPtoolsfitlist),"FDPmodel")
 
   return(FDPtoolsfitlist)
@@ -150,7 +152,7 @@ summary.FDPmodel <- function(modelfit,...) {
   DeltaDic <-  DICs - DICs[bestmod]
   data.frame(DICs) -> DICs
     DICs <- cbind(DICs,Delta=DeltaDic,models=modelfit[[4]])
-    gelman <- modelfit[[5]]
+    gelman <- modelfit[[5]][[bestmod]]
   
   
   ##Summarize results (alpha + upper lower CI) per species
@@ -189,6 +191,8 @@ FitStats <- function(fitvalues,stat='delta'){
 }
 
 
+#' Calculate model weights
+#'
 #' Summarize models, fitstatistics and get model weighst
 #' based on DIC statistics. 
 #' \code{FDPmodel} - summarizes of a list of
