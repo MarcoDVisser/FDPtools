@@ -160,7 +160,7 @@ summary.FDPmodel <- function(modelfit,...) {
   CI<-summary(modelfit[[2]][[bestmod]])$quantiles
 
 return(list('DIC'=DICs,'bestmodel'=modelfit[[4]][bestmod]
-            ,'Parameters'=MeanEst,'CI'=CI),"Gelman"=gelman)
+            ,'Parameters'=MeanEst,'CI'=CI,"Gelman"=gelman))
 }
 
 
